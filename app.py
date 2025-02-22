@@ -1,7 +1,6 @@
 import streamlit as st
 import pickle
 import numpy as np
-import sklearn
 
 # Load the trained model and scaler
 with open("lasso_model.pkl", "rb") as f:
@@ -16,10 +15,15 @@ feature_names = ['age', 'sex', 'bmi', 'bp', 's1', 's2', 's3', 's4', 's5', 's6']
 st.title("Diabetes Progression Prediction")
 st.write("Enter the values for each feature to predict the target.")
 
-# Input fields for features
+# Arrange input fields into two columns
+col1, col2 = st.columns(2)
+
 inputs = []
-for feature in feature_names:
-    value = st.number_input(f"{feature}", value=0.0)
+for i, feature in enumerate(feature_names):
+    if i % 2 == 0:
+        value = col1.number_input(f"{feature}", value=0.0)
+    else:
+        value = col2.number_input(f"{feature}", value=0.0)
     inputs.append(value)
 
 # Convert inputs to numpy array and reshape for scaling
@@ -30,3 +34,4 @@ scaled_input = scaler.transform(input_array)
 if st.button("Predict"):
     prediction = model.predict(scaled_input)[0]
     st.success(f"Predicted Target Value: {prediction:.2f}")
+st.write("Built by Deepak")
