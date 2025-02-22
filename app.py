@@ -11,7 +11,7 @@ with open("scaler.pkl", "rb") as f:
     scaler = pickle.load(f)
 
 # Connect to MongoDB
-client = MongoClient(secrets["MONGO_URI"])
+client = MongoClient(st.secrets["MONGO_URI"])
 db = client["diabetes_db"]
 collection = db["predictions"]
 
